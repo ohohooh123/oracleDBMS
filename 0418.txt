@@ -1,0 +1,11 @@
+SELECT
+    tablespace_name,
+    segment_name,
+    segment_name,
+    extents,
+    blocks
+FROM
+    dba_segments
+WHERE
+        owner = 'c##madang'
+    AND segment_name = 'book';
