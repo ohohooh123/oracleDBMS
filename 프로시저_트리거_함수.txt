@@ -1,0 +1,96 @@
+CREATE OR REPLACE PROCEDURE insertbook (
+    mybookid    IN NUMBER,
+    mybookname  IN VARCHAR2,
+    mypublisher IN VARCHAR2,
+    myprice     IN NUMBER
+) AS
+BEGIN
+    INSERT INTO book (
+        bookid,
+        bookname,
+        publisher,
+        price
+    ) VALUES (
+        mybookid,
+        mybookname,
+        mypublisher,
+        myprice
+    );
+
+END;
+/
+
+exec insertbook(13, '스포츠과학', '마당과학서적', 25000);
+select * from book;
+
+
+CREATE OR REPLACE PROCEDURE bookinsertorupdate (
+    mybookid    NUMBER,
+    mybookname  VARCHAR2,
+    mypublisher VARCHAR2,
+    myprice     INT
+) AS
+    mycount NUMBER;
+BEGIN
+    SELECT
+        COUNT(*)
+    INTO mycount
+    FROM
+        book
+    WHERE
+        bookname LIKE mybookname;
+
+    IF mycount != 0 THEN
+        UPDATE book
+        SET
+            price = myprice
+        WHERE
+            bookname LIKE mybookname;
+
+    ELSE
+        INSERT INTO book (
+            bookid,
+            bookname,
+            publisher,
+            price
+        ) VALUES (
+            mybookid,
+            mybookname,
+            mypublisher,
+            myprice
+        );
+
+    END IF;
+
+END;
+
+create table book_log(
+bookid_1 number,
+bookname_1 varchar2(40),
+publisher_1 varchar2(40),
+price_1 number);
+
+create or replace trigger afterinsertbook
+after insert on book for each row
+declare
+average number;
+begin
+insert into book_log
+values(:new.bookid, :new.bookname, :new.publisher, :new.price);
+dbms_output.put_line('삽입 투플을 book_log 테이블에 백업..');
+end;
+
+create or replace function fnc_interest(
+Price number) return int
+is
+myinterest number;
+begin
+if price >= 30000 then myinterest :=price*0.1;
+else myinterest :=price*0.05;
+end if;
+return myinterest;
+end;
+/
+
+select custid, orderid, saleprice, fnc_interest(saleprice) interst from orders;
+
