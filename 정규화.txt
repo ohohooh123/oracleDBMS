@@ -1,0 +1,29 @@
+create table summer( sid number, class varchar2(20), price number);
+
+insert into summer values (100, 'fortran', 20000);
+insert into summer values (150, 'pascal', 15000);
+insert into summer values (200, 'c', 10000);
+insert into summer values (250, 'fortan', 20000);
+
+select * from summer;
+
+select count(*), sum(price) from summer;
+
+delete from summer where sid=200;
+
+insert into summer values (200,'c',10000);
+
+insert into summer values (null, 'java', 25000);
+select * from summer;
+select count(*) from summer;
+select count(sid) "수강인원" from summer;
+
+select count(sid) "수강인원" from summer where sid is not null;
+
+update summer set price=15000 where class='fortan';
+select * from summer;
+rollback;
+
+update summer set price=20000 where class='fortran';
+
+delete from summer where sid is null;
