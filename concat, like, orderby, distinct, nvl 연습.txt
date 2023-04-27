@@ -1,0 +1,35 @@
+select 
+    concat(first_name, last_name) as Name, 
+    job_id as Job,
+    Salary,
+    Salary*12+100 as "Increased Ann_salary",
+    (salary+100)*12 as "Increased Salsry"
+    from  employees;
+    
+select
+    concat(last_name, concat(': 1 Year Salary = $', Salary*12)) as "1 Year Salary"
+    from employees;
+    
+select
+    distinct job_id , department_id
+    from employees order by department_id;
+    
+select
+    last_name as "e and o Name"
+    from employees
+    where last_name like '%e%' and last_name like '%o%';
+    
+select
+    concat(first_name, concat(' ',last_name)) as Name, salary, job_id, commission_pct
+    from employees where commission_pct is not null order by salary desc, commission_pct;
+    
+    
+select
+    (first_name || ' ' || last_name) || ' is a ' || job_id
+     as "Employee JOBs."
+    from employees where last_name like '%s';
+    
+select
+    first_name || ' ' || last_name Name, salary, salary*12 "Annual Salary", NVL2 (commission_pct, 'salary + commission', 'Salary only') "commission ?"
+    from employees;
+    
